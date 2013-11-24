@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:fb="http://www.facebook.com/2008/fbml">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="copyright" content="COPYRIGHT (C) SANYO GROUP.ALL RIGHTS RESERVED." >
+<meta name="keywords" content="" >
+<meta name="description" content="" >
+
+
+
+<script src="common/js/jquery.js"></script>
+<script src="common/js/continuousCssAnime.js"></script>
+
+
+
+<script type="text/javascript">
+
+window.onload = function () {
+	setTimeout("scrollTo(0,1)",100);
+}
+
+
+$(function(){
+	$("p.test").continuousCssAnime({
+		num : 6,
+		onComplate : function(){test()},
+		btn : "hover",
+		animeReverse : true
+	})
+	var userAgent = navigator.userAgent.toLowerCase();
+	var animationend = 
+	(!(userAgent.indexOf("webkit") == -1)) ? "webkitAnimationEnd" : 
+	(!(userAgent.indexOf("gecko") == -1)) ? "animationend" :
+	(!(userAgent.indexOf("opera") == -1)) ? "animationend" : "";
+	setInterval (function() {
+		$("p.test")[0].innerHTML = $("p.test").attr("class");
+	},0)
+});
+
+
+</script>
+<style>
+* {
+	padding: 0;
+	margin: 0;
+}
+
+p.test {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 200px;
+	height: 200px;
+	background-color: #ccc;
+
+	-moz-transition-property: all;
+	-webkit-transition-property: all;
+	-o-transition-property: all;
+	-ms-transition-property: height;
+	
+	-moz-transition-duration:0.2s;
+	-webkit-transition-duration: 0.2s;
+	-o-transition-duration:0.2s;
+	-ms-transition-duration:0.2s;
+	
+	-moz-transition-timing-function:ease-in-out;
+	-webkit-transition-timing-function:ease-in-out;
+	-o-transition-timing-function:ease-in-out;
+	-ms-transition-timing-function:ease-in-out;
+	
+	-moz-transition-delay:0;
+	-o-transition-delay:0;
+	-ms-transition-delay:0;
+	-webkit-transform-origin: 50% 0;
+	-moz-transform-origin: 50% 0;
+	-o-transform-origin: 50% 0;
+}
+
+
+p.test.move1 {
+		-webkit-transform: rotateZ(0);
+		-moz-transform: rotateZ(0);
+		-o-transform: rotate(-8deg);
+}
+p.test.move2 {
+		-webkit-transform: rotateZ(-8deg);
+		-moz-transform: rotateZ(-8deg);
+		-o-transform: rotate(-8deg);
+}
+p.test.move3 {
+		-webkit-transform: rotateZ(6deg);
+		-moz-transform: rotateZ(6deg);
+		-o-transform: rotate(6deg);
+		height: 300px;
+}
+p.test.move4 {
+		-webkit-transform: rotateZ(-4deg);
+		-moz-transform: rotateZ(-4deg);
+		-o-transform: rotate(-4deg);
+	-moz-transition-delay:0.3s;
+}
+p.test.move5 {
+		-webkit-transform: rotateZ(2deg);
+		-moz-transform: rotateZ(2deg);
+		-o-transform: rotate(2deg);
+	-webkit-transition-delay:0s;
+	-moz-transition-delay:0s;
+}
+p.test.move6 {
+		-webkit-transform: rotateZ(0);
+		-moz-transform: rotateZ(0);
+		-o-transform: rotate(-1deg);
+}
+
+p.btn {
+	width: 100px;
+	height: 100px;
+	background-color: red;
+	position: absolute;
+	left: 700px;
+}
+
+</style>
+
+<title></title>
+</head>
+
+<body id="index">
+
+<p class="btn"></p>
+<p class="test"></p>
+
+</body>
+</html>

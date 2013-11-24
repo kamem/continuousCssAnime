@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:fb="http://www.facebook.com/2008/fbml">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=0">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="copyright" content="COPYRIGHT (C) SANYO GROUP.ALL RIGHTS RESERVED." >
+<meta name="keywords" content="" >
+<meta name="description" content="" >
+
+
+
+<script src="common/js/jquery.js"></script>
+<script src="common/js/continuousCssAnime.js"></script>
+
+
+
+<script type="text/javascript">
+
+window.onload = function () {
+	setTimeout("scrollTo(0,1)",100);
+}
+
+
+$(function(){
+	$("p.test").continuousCssAnime({
+		type: "animation",
+		num : 2,
+		btn : "hover",
+		btnContent : $("p.btn")
+	})
+	var userAgent = navigator.userAgent.toLowerCase();
+	var animationend = 
+	(!(userAgent.indexOf("webkit") == -1)) ? "webkitAnimationEnd" : 
+	(!(userAgent.indexOf("gecko") == -1)) ? "animationend" :
+	(!(userAgent.indexOf("opera") == -1)) ? "animationend" : "";
+	setInterval (function() {
+		$("p.test")[0].innerHTML = $("p.test").attr("class");
+	},0)
+});
+
+
+function test() {
+	alert("全てのアニメーションが終わったとき実行される関数！")
+}
+
+
+</script>
+<style>
+* {
+	padding: 0;
+	margin: 0;
+}
+
+p.test {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 200px;
+	height: 200px;
+	background-color: #ccc;
+	-webkit-transform-origin: 50% 0;
+}
+
+p.test.move1 {
+	-webkit-animation-name: rotate ;
+	-webkit-animation-delay: 0s;
+	-webkit-animation-duration: 0.6s;
+	-webkit-animation-iteration-count: 1;
+	-webkit-animation-timing-function: ease-in;
+}
+p.test.move2 {
+	-webkit-animation-name: rotate2;
+	-webkit-animation-delay: 1s;
+	-webkit-animation-duration: 0.6s;
+	-webkit-animation-iteration-count: 1;
+	-webkit-animation-timing-function: ease-in;
+}
+
+
+@-webkit-keyframes rotate {
+	0% {
+		-webkit-transform: rotateZ(0);
+	}
+	20% {
+		-webkit-transform: rotateZ(-8deg);
+	}
+	40% {
+		-webkit-transform: rotateZ(6deg);
+	}
+	60% {
+		-webkit-transform: rotateZ(-4deg);
+	}
+	80% {
+		-webkit-transform: rotateZ(2deg);
+	}
+	100% {
+		-webkit-transform: rotateZ(0);
+	}
+}
+@-webkit-keyframes rotate2 {
+	0% {
+		-webkit-transform: rotateZ(0);
+	}
+	20% {
+		-webkit-transform: rotateZ(-8deg);
+	}
+	40% {
+		-webkit-transform: rotateZ(6deg);
+	}
+	60% {
+		-webkit-transform: rotateZ(-4deg);
+	}
+	80% {
+		-webkit-transform: rotateZ(2deg);
+	}
+	100% {
+		-webkit-transform: rotateZ(0);
+	}
+}
+
+
+
+
+p.btn {
+	border: 100px solid red;
+	position: absolute;
+	left: 600px;
+}
+
+</style>
+
+<title></title>
+</head>
+
+<body id="index">
+
+<p class="btn"></p>
+
+<p class="test"></p>
+
+</body>
+</html>
