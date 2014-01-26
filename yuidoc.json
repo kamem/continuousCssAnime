@@ -1,0 +1,7 @@
+{
+    "name": "jQuery continuousCssAnime",
+    "description": "transitionendやanimationendを使いアニメーションが終る度に連番でクラスをつけるjQuery Plugin",
+    "options": {
+        "outdir": "yuidoc/"
+    }
+}

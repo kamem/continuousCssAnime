@@ -8,12 +8,8 @@
 <meta name="keywords" content="" >
 <meta name="description" content="" >
 
-
-
-<script src="common/js/jquery.js"></script>
-<script src="common/js/continuousCssAnime.js"></script>
-
-
+<script src="js/jquery.js"></script>
+<script src="js/jquery.continuousCssAnime.js"></script>
 
 <script type="text/javascript">
 
@@ -26,7 +22,7 @@ $(function(){
 	$("p.test").continuousCssAnime({
 		type: "animation",
 		num : 2,
-		btn : "hover",
+		event : "hover",
 		btnContent : $("p.btn")
 	})
 	var userAgent = navigator.userAgent.toLowerCase();
@@ -130,7 +126,7 @@ p.btn {
 
 </style>
 
-<title></title>
+<title>jquery.continuousCssAnime テスト</title>
 </head>
 
 <body id="index">

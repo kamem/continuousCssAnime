@@ -8,12 +8,8 @@
 <meta name="keywords" content="" >
 <meta name="description" content="" >
 
-
-
-<script src="common/js/jquery.js"></script>
-<script src="common/js/continuousCssAnime.js"></script>
-
-
+<script src="js/jquery.js"></script>
+<script src="js/jquery.continuousCssAnime.js"></script>
 
 <script type="text/javascript">
 
@@ -24,9 +20,8 @@ window.onload = function () {
 
 $(function(){
 	$("p.test").continuousCssAnime({
-		num : 6,
 		onComplate : function(){test()},
-		btn : "hover",
+		event : "hover",
 		animeReverse : true
 	})
 	var userAgent = navigator.userAgent.toLowerCase();
@@ -124,13 +119,13 @@ p.btn {
 
 </style>
 
-<title></title>
+<title>jquery.continuousCssAnime テスト</title>
 </head>
 
 <body id="index">
 
 <p class="btn"></p>
-<p class="test"></p>
+<p class="test animeNum6"></p>
 
 </body>
 </html>

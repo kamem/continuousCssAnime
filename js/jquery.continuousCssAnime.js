@@ -1,28 +1,33 @@
-/*
- * jQuery continuous CssAnime
+/**
+ *	jQuery continuousCssAnime.
+ *	jQuery required.
+ *	
+ *	* Copyright 2014 (c) kamem
+ *	* http://develo.org/
+ *	* Licensed Under the MIT.
+ *	
+ *	Date: 2014.01.26
  *
- * jQuery required.
+ *	* type : "animation" || "transition"
+ *	* num : cssでアニメーションを繰り返す回数（クラス名にanimeNum6などでアニメーション回数を指定することもできます。）
+ *	* name : アニメーションするときに付けるclass名
+ *	* 例 ) move1
  *
- * Copyright 2011 (c) kamem
- * http://develo.org/
- * Licensed Under the MIT.
+ *	* onComplate : 全てのアニメーションが終わったときに実行する関数
  *
- * Date: 2012.1.18
-	type : "animation" || "transition"
-	num : cssでアニメーションを繰り返す回数
-	name : アニメーションするときに付けるclass名
-	例 ) move1
+ *	* 途中のcssアニメーションの終了時に処理を実行したい場合
+ *	* 例 ) 3回目の場合
+ *	* anime3onComplate
+ *
+ *	* event : false or btnContentに設定したいイベント
+ *	* btnContent : hoverしたときに反応させたいコンテンツ
+ *	 
+ *	*  animeReverse : mouseout時いままでつけてきたクラスを一つづつ外してアニメーションを一つづつ戻す
+ *
+ * @class continuousCssAnime
+ *
+ */
 
-	onComplate : 全てのアニメーションが終わったときに実行する関数
-
-	途中のcssアニメーションの終了時に処理を実行したい場合
-	例 ) 3回目の場合
-	anime3onComplate
-	
-	btn : true || false
-	btnContent : hoverしたときに反応させたいコンテンツ
-
-*/
 (function($){
 
 $.fn.continuousCssAnime = function(options) {
@@ -32,31 +37,31 @@ $.fn.continuousCssAnime = function(options) {
 		num : 1,
 		name : "move",
 		onComplate:'',
-		btn : false,
+		event : false,
 		btnContent : $content,
 		animeReverse : false
 	},options);
 
-
 	var name = c.name,
-	num = c.num,
-	onComplate = c.onComplate,
-	type = c.type,
-	btn = c.btn,
-	btnContent = c.btnContent;
+		num = c.num,
+		onComplate = c.onComplate,
+		type = c.type,
+		event = c.event,
+		btnContent = c.btnContent;
 
 	var userAgent = navigator.userAgent.toLowerCase();
 	var animationend = 
-	(!(userAgent.indexOf("webkit") == -1)) ? ((type == "transition") ? "webkitTransitionEnd" : "webkitAnimationEnd") : 
-	(!(userAgent.indexOf("gecko") == -1)) ? ((type == "transition") ? "transitionend" : "animationend") :
-	(!(userAgent.indexOf("opera") == -1)) ? ((type == "transition") ? "oTransitionEnd" : "oAnimationend") :
-	(!(userAgent.indexOf("MSIE 10.0") == -1)) ? ((type == "transition") ? "MSTransitionEnd" : "MSAnimationend") : "";
-	
-	// ボタンをoutした時のReverseフラグ
+		(!(userAgent.indexOf("webkit") == -1)) ? ((type == "transition") ? "webkitTransitionEnd" : "webkitAnimationEnd") : 
+		(!(userAgent.indexOf("gecko") == -1)) ? ((type == "transition") ? "transitionend" : "animationend") :
+		(!(userAgent.indexOf("opera") == -1)) ? ((type == "transition") ? "oTransitionEnd" : "oAnimationend") :
+		(!(userAgent.indexOf("MSIE 10.0") == -1)) ? ((type == "transition") ? "MSTransitionEnd" : "MSAnimationend") : "";
+
 	var outReverse = false;
 
+	//アニメーションしたいコンテンツが複数指定されている場合の配列
 	var animation = {};
-		
+
+	//それぞれのイベントリスナーの追加と削除
 	var eventListener = {
 		add : function(i) {
 			if(animation[i].callee) {
@@ -70,34 +75,32 @@ $.fn.continuousCssAnime = function(options) {
 				$content.eq(i)[0].removeEventListener(animationend, animation[i].callee,false);
 		}
 	};
-	
+
 	$content.each(function(i){
-		
 		animation[i] = {};
 		//最初のクラス名取得
 		animation[i].className = $(this)[0].className;
-		
 		//現在の数値
 		animation[i].classNum = 1;
 
 		//アニメーションする回数
-		
 		var animeNumString = 'animeNum';
 		var animeNum = $(this)[0].className.indexOf(animeNumString) +  animeNumString.length;
 		animation[i].num = 0 <= $(this)[0].className.indexOf(animeNumString) ? $(this)[0].className.substring(animeNum, animeNum + 1) : num;
 		
+		console.log($(this)[0].className.indexOf(animeNumString));
 		
-		/* 何番目のアニメーション終わったときに関数を実行するか */
+		//何番目のアニメーション終わったときに関数を実行するか
 		animation[i].onCompArray = []
 		for(var j = 1;j <= animation[i].num;j++) {
 			if(c["anime" + j + "onComplate"]) {
 				animation[i].onCompArray[j] = c["anime" + j + "onComplate"];
-			}
-		}
+			};
+		};
 
-		/* btnがfaluse意外の時*/
-		if(btn) {
-			btnContent[btn](function () {
+		//eventがfaluse意外の時
+		if(event) {
+			btnContent[event](function () {
 				if(type == "animation") {
 					if(($content.eq(i)[0].className == animation[i].className) ||  0 < $content.eq(i)[0].className.indexOf(name + "allend")) {
 						$content.eq(i).removeClass(name + "allend");
@@ -115,7 +118,7 @@ $.fn.continuousCssAnime = function(options) {
 				}
 				
 			}, function () {
-				if((type == "animation") && (btn == "hover")) {
+				if((type == "animation") && (event == "hover")) {
 					if(0 < $content.eq(i)[0].className.indexOf(name + "allend")) {
 						eventListener.remove(i);
 					}
@@ -136,8 +139,7 @@ $.fn.continuousCssAnime = function(options) {
 					}
 				}
 			});
-		}
-		else {
+		} else {
 			$(this).addClass(name + animation[i].classNum);
 			
 			eventListener.add(i);
@@ -145,26 +147,31 @@ $.fn.continuousCssAnime = function(options) {
 	});
 
 
+	/**
+	 *	アニメーションが終わったら実行、状況に合わせてクラスの追加や削除を行う
+	 *	@method ccssanime
+	 *	@param {Object} モーションの配列
+	 *	@param {Number} animation配列の何番目なのか
+	 */
 	function ccssanime(e,i) {
 		$content = $(e.target);
-		
+
 		if(!(animation[i].propertyName)) {
-			
+
 			if(type == "transition") {
 				animation[i].propertyName = e.propertyName;
 				setTimeout(function() {
 					animation[i].propertyName = 0;
 				},0)
-			}
-			
+			};
 
-			if(!(outReverse)) {animation[i].classNum++;}else {animation[i].classNum--;}
+			if(!(outReverse)) {animation[i].classNum++;} else {animation[i].classNum--;};
+
+			//今のアニメーション番号が0以上 かる 最大アニメーション回数以下の時
 			if ((animation[i].classNum > 0) && ( animation[i].classNum <= animation[i].num)) {
 				if(outReverse) {
 					$content.removeClass(name + (animation[i].classNum + 1));
-				}
-				else {
-				
+				} else {
 					$content.addClass(name + animation[i].classNum);
 				}
 	
@@ -189,28 +196,26 @@ $.fn.continuousCssAnime = function(options) {
 				if(animation[i].onCompArray[animation[i].classNum - 1]) {
 					animation[i].onCompArray[animation[i].classNum - 1]();
 				}
-			}
-			else {
+			} else {
 				animation[i].classNum  = 1;
 				//animeだったらクラスをもとに戻す
 				if(type == "animation") {
 					$content[0].className = animation[i].className;
-				}
+				};
 	
 				if(!(outReverse)) {
 					outReverse = false;
 					$content.addClass(name + "allend");
-				}
-				else {
+				} else {
 					outReverse = false;
 					$content.removeClass(name + 1);
 					
 					eventListener.remove(i);
-				}
+				};
 			
 				if(onComplate) {
 					onComplate();
-				}
+				};
 			}
 		}
 	}
