@@ -1,11 +1,11 @@
 /**
  *	jQuery continuousCssAnime.
  *	jQuery required.
- *	
+ *
  *	* Copyright 2014 (c) kamem
  *	* http://develo.org/
  *	* Licensed Under the MIT.
- *	
+ *
  *	Date: 2014.01.26
  *
  *	* type : "animation" || "transition"
@@ -21,7 +21,7 @@
  *
  *	* event : false or btnContentに設定したいイベント
  *	* btnContent : hoverしたときに反応させたいコンテンツ
- *	 
+ *
  *	*  animeReverse : mouseout時いままでつけてきたクラスを一つづつ外してアニメーションを一つづつ戻す
  *
  * @class continuousCssAnime
@@ -50,8 +50,8 @@ $.fn.continuousCssAnime = function(options) {
 		btnContent = c.btnContent;
 
 	var userAgent = navigator.userAgent.toLowerCase();
-	var animationend = 
-		(!(userAgent.indexOf("webkit") == -1)) ? ((type == "transition") ? "webkitTransitionEnd" : "webkitAnimationEnd") : 
+	var animationend =
+		(!(userAgent.indexOf("webkit") == -1)) ? ((type == "transition") ? "webkitTransitionEnd" : "webkitAnimationEnd") :
 		(!(userAgent.indexOf("gecko") == -1)) ? ((type == "transition") ? "transitionend" : "animationend") :
 		(!(userAgent.indexOf("opera") == -1)) ? ((type == "transition") ? "oTransitionEnd" : "oAnimationend") :
 		(!(userAgent.indexOf("MSIE 10.0") == -1)) ? ((type == "transition") ? "MSTransitionEnd" : "MSAnimationend") : "";
@@ -87,9 +87,9 @@ $.fn.continuousCssAnime = function(options) {
 		var animeNumString = 'animeNum';
 		var animeNum = $(this)[0].className.indexOf(animeNumString) +  animeNumString.length;
 		animation[i].num = 0 <= $(this)[0].className.indexOf(animeNumString) ? $(this)[0].className.substring(animeNum, animeNum + 1) : num;
-		
+
 		console.log($(this)[0].className.indexOf(animeNumString));
-		
+
 		//何番目のアニメーション終わったときに関数を実行するか
 		animation[i].onCompArray = []
 		for(var j = 1;j <= animation[i].num;j++) {
@@ -98,14 +98,14 @@ $.fn.continuousCssAnime = function(options) {
 			};
 		};
 
-		//eventがfaluse意外の時
+		//eventがfalse意外の時
 		if(event) {
 			btnContent[event](function () {
 				if(type == "animation") {
 					if(($content.eq(i)[0].className == animation[i].className) ||  0 < $content.eq(i)[0].className.indexOf(name + "allend")) {
 						$content.eq(i).removeClass(name + "allend");
 						$content.eq(i).addClass(name + animation[i].classNum);
-			
+
 						eventListener.add(i);
 					}
 				}
@@ -113,10 +113,10 @@ $.fn.continuousCssAnime = function(options) {
 						outReverse = false;
 						$content.eq(i).removeClass(name + "allend");
 						$content.eq(i).addClass(name + animation[i].classNum);
-			
+
 						eventListener.add(i);
 				}
-				
+
 			}, function () {
 				if((type == "animation") && (event == "hover")) {
 					if(0 < $content.eq(i)[0].className.indexOf(name + "allend")) {
@@ -132,7 +132,7 @@ $.fn.continuousCssAnime = function(options) {
 							$content.eq(i).removeClass(name + animation[i].num);
 						}
 					}
-					else { 
+					else {
 						animation[i].classNum  = 1;
 						$content.eq(i)[0].className = animation[i].className;
 						eventListener.remove(i);
@@ -140,8 +140,11 @@ $.fn.continuousCssAnime = function(options) {
 				}
 			});
 		} else {
-			$(this).addClass(name + animation[i].classNum);
-			
+			var _this = this;
+			setTimeout(function() {
+				$(_this).addClass(name + animation[i].classNum);
+			},0);
+
 			eventListener.add(i);
 		}
 	});
@@ -174,19 +177,19 @@ $.fn.continuousCssAnime = function(options) {
 				} else {
 					$content.addClass(name + animation[i].classNum);
 				}
-	
+
 				if(type == "animation") {
 					/* delayがあった場合 */
-					var animationDelay =  
+					var animationDelay =
 					(!(userAgent.indexOf("webkit") == -1)) ? $content.css("-webkit-animation-delay") :
 					(!(userAgent.indexOf("gecko") == -1)) ? $content.css("-moz-animation-delay") :
 					(!(userAgent.indexOf("opera") == -1)) ? $content.css("-o-animation-delay") :
 					(!(userAgent.indexOf("MSIE 10.0") == -1)) ? $content.css("-ms-animation-delay") : "";
 					var delay = animationDelay.substring(0,animationDelay.length-1) * 1000;
-					
+
 					if(0 < delay) {
 						$content.addClass("end" + (animation[i].classNum - 1));
-						
+
 						setTimeout(function() {
 							$content.removeClass("end" + (animation[i].classNum - 1));
 						},delay)
@@ -202,17 +205,17 @@ $.fn.continuousCssAnime = function(options) {
 				if(type == "animation") {
 					$content[0].className = animation[i].className;
 				};
-	
+
 				if(!(outReverse)) {
 					outReverse = false;
 					$content.addClass(name + "allend");
 				} else {
 					outReverse = false;
 					$content.removeClass(name + 1);
-					
+
 					eventListener.remove(i);
 				};
-			
+
 				if(onComplate) {
 					onComplate();
 				};

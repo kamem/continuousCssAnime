@@ -9,7 +9,7 @@
 <meta name="description" content="" >
 
 <script src="js/jquery.js"></script>
-<script src="js/jquery.continuousCssAnime.js"></script>
+<script src="js/jquery.continuousCssAnime.min.js"></script>
 
 <script type="text/javascript">
 
@@ -26,8 +26,8 @@ $(function(){
 		btnContent : $("p.btn")
 	})
 	var userAgent = navigator.userAgent.toLowerCase();
-	var animationend = 
-	(!(userAgent.indexOf("webkit") == -1)) ? "webkitAnimationEnd" : 
+	var animationend =
+	(!(userAgent.indexOf("webkit") == -1)) ? "webkitAnimationEnd" :
 	(!(userAgent.indexOf("gecko") == -1)) ? "animationend" :
 	(!(userAgent.indexOf("opera") == -1)) ? "animationend" : "";
 	setInterval (function() {
